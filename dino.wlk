@@ -13,10 +13,12 @@ object juego{
 		game.addVisual(dino)
 		game.boardGround("arena.png")
 
-		//game.addVisual(reloj)
+		game.addVisual(reloj)
 	
 		keyboard.space().onPressDo{ self.jugar()}
 		game.onCollideDo(dino,{ obstaculo => obstaculo.chocar()})
+
+		
 	} 
 	
 	method iniciar(){
@@ -44,24 +46,25 @@ object juego{
 object gameOver {
 	method position() = game.center()
 	method image() = "gameover.png"
-	
-
 }
 
 object reloj {
 	var tiempo = 0
+	const negro = "#000000"
 	
+	method text() = "tiempo: " + tiempo.toString() //para que me muestre la variable tiempo como string
+	method textColor() = negro
 	method tiempo() = tiempo
 
-	// TODO method image() 
-	// TODO method position() 
+	method image() = "reloj.png" 
+	method position() = game.at(1, game.height()-1) //(el 1er param es X y el 2do es Y)
 	
 	method pasarTiempo() {
 		tiempo = tiempo + 1
 	}
 	method iniciar(){
 		tiempo = 0
-		game.onTick(1000,"tiempo",{self.pasarTiempo()})
+		game.onTick(1000,"tiempo",{self.pasarTiempo()}) //para que se repita una accion cada cierto tiempo
 	}
 	method detener(){
 		game.removeTickEvent("tiempo")
